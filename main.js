@@ -130,10 +130,23 @@ const controls = new OrbitControls(camera, renderer.domElement);
 controls.enableDamping = true; 
 controls.autoRotate = true;
 
+// Remove loading indicator once scene is ready
+function removeLoading() {
+  const el = document.querySelector('.loading');
+  if (el) {
+    el.style.transition = 'opacity 0.6s ease';
+    el.style.opacity = '0';
+    setTimeout(() => el.remove(), 600);
+  }
+}
+
 // Animation
+let frameCount = 0;
 function animate() {
     window.requestAnimationFrame(animate);
     renderer.render(scene, camera);
     controls.update();
+    if (frameCount === 0) removeLoading();
+    frameCount++;
 }
 animate();
